@@ -1,19 +1,20 @@
 <?php
+require_once 'core/core.php';
 $test_list=[];
 $test_dir = opendir('tests/');
-//print_r (scandir('tests/'));
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Загруженые тесты</title>
 </head>
 <body>
-	<p><h2>Список тестов:</h2></p>
+<p><h2>Список тестов:</h2></p>
 <?php
 while (false !== ($entry = readdir($test_dir))) {
     if ($entry != "." && $entry != ".." && pathinfo($entry,PATHINFO_EXTENSION)=='json') {
-    $test_list[]= $entry;
+    	$test_list[]= $entry;
     }
 }
 foreach ($test_list as $name) {

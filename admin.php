@@ -1,28 +1,33 @@
 <?php
-// $test_list=['math.json'=>'математика',];
- // if (!isset($_FILES['load_test']['name'])) {
- // echo 'Нет загруженых тестов';
+require_once 'core/core.php';
+if (!isset ($_SESSION['admin'])){
+	http_response_code(403);
+	header('Location: index.php');
+}
+if(isset($_GET['do'])){
+	if ($_GET['do'] == 'logout'){
+	unset($_SESSION['admin']);
+	session_destroy();	
+	}
+}
 
- var_dump($_FILES);	
- // } else {
-  	if (isset ($_FILES['load_test']['name'])){
-  		$test = $_FILES['load_test']['name'];
+if (isset ($_FILES['load_test']['name'])){
+  	$test = $_FILES['load_test']['name'];
  	move_uploaded_file($_FILES['load_test']['tmp_name'], 'tests/'.$test);
  	header("Location: list.php");
 }
- // 	echo 'загружен: '.$test_list[$test];
- // }
+
 if (isset($_FILES['load_test']['name'])) {
 	$extension = pathinfo($_FILES['load_test']['name'],PATHINFO_EXTENSION);
 	if ($extension!='json') {
  	echo 'Выбрано неверное расширение файла';
-
 	}
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Администрация</title>
 </head>
 <body>
@@ -35,5 +40,6 @@ if (isset($_FILES['load_test']['name'])) {
 			<br>
 			<input type="submit" value="загрузить"><br>
 		</form>	
+	<br><a href="admin.php?do=logout">Выход</a>
 </body>
 </html>
